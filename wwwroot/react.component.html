@@ -1,0 +1,88 @@
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>React-demo</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="libs/bootstrap/css/bootstrap.css" rel="stylesheet">
+	<link href="styles/styles.css" rel="stylesheet">
+    <script src="libs/react/react.js"></script>
+    <script src="libs/react/react-dom.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.34/browser.min.js"></script>
+	<script type="text/babel">
+		class HelloComp extends React.Component{
+			render() { 
+				return React.createElement("p",null,this.props.greeting);
+			}
+		}
+
+		class Clickable extends React.Component{
+			constructor(props){
+				super(props);
+				this.state={clicks:0,tx:'hello'};
+				this.clicked=this.clicked.bind(this);
+				this.textChanged=this.textChanged.bind(this);
+			}
+			
+			clicked(){
+				this.setState({clicks:this.state.clicks+1});
+			}
+			
+			textChanged(ev){
+				this.setState({tx:ev.target.value});
+			}
+			
+			render(){
+				return React.createElement("p",{onClick:this.clicked},
+						"Click me, clicks: ",
+						this.state.clicks,
+						React.createElement("input",{
+							value:this.state.tx,
+							onChange:this.textChanged}),
+						this.state.tx);
+			}
+		}
+		
+		var helloElement=React.createElement("div",null,
+				React.createElement("h2",null,"Element using components"),
+				React.createElement(HelloComp,{greeting:"Hello world!"}),
+				React.createElement(Clickable)
+			);
+
+        window.onload=function() {
+            ReactDOM.render(helloElement,
+                document.getElementById('hello')
+            );
+        };
+    </script>
+	<style>
+		div#hello {
+			border: 1px solid silver;
+			padding: 10px;
+			border-radius: 10px;
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<header>
+			<img src="images/demoicon.jpg" />
+			<h1>Demonstration</h1>
+		</header>
+		<main>
+			<h1>React-demo</h1>
+			<p>Components are ES6-classes that inherit React.Component. JSX-notation
+			removes the need to call React.createElement extensively. Component-names
+			may be used in JSX-notation as elements.</p>
+			<div id="hello">Soon to disappear</div>
+			<p>Component instances also may holds state between renderings, react
+			elements don't have state.</p>
+		</main>
+		<footer>
+			Copyright (c) Kooditutorit Konsultointi Oy, 2016 
+			&#124; <a href="http://www.kooditutorit.fi">www.kooditutorit.fi</a>
+			&#124; <a href="mailto:info@kooditutorit.fi">info@kooditutorit.fi</a>
+		</footer>
+	</div>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>React-demo</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="libs/bootstrap/css/bootstrap.css" rel="stylesheet">
+	<link href="styles/styles.css" rel="stylesheet">
+    <script src="libs/jquery.js"></script>
+    <script src="libs/react/react.js"></script>
+    <script src="libs/react/react-dom.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.34/browser.min.js"></script>
+    <script type="text/babel">
+	
+		var simple=React.createElement("p",null,"Hello world");
+	
+		var simpleWithProps=React.createElement("p",{
+					style:{color:'green'},
+					onClick:(ev) => alert("I was clicked")
+				},"I have props");
+		
+		var container=React.createElement("div",null,
+			React.createElement("h2",null,"createElement -demo"),
+			simple,simpleWithProps);
+	
+        $(document).ready(function () {
+            ReactDOM.render(container,
+                document.getElementById('hello')
+            );
+        });
+    </script>
+	<style>
+		div#hello {
+			border: 1px solid silver;
+			padding: 10px;
+			border-radius: 10px;
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<header>
+			<img src="images/demoicon.jpg" />
+			<h1>Demonstration</h1>
+		</header>
+		<main>
+			<h1>React-demo</h1>
+			<p>React API basically just creates the virtual DOM using 
+			React.createElement.</p>
+			<div id="hello">Soon to disappear</div>
+			<p>createElement takes parameters
+			<ul>
+				<li>Element name</li>
+				<li>Props given to the element</li>
+				<li>Variable length list of children for the element</li>
+			</ul>
+				
+			</p>
+		</main>
+		<footer>
+			Copyright (c) Kooditutorit Konsultointi Oy, 2016 
+			&#124; <a href="http://www.kooditutorit.fi">www.kooditutorit.fi</a>
+			&#124; <a href="mailto:info@kooditutorit.fi">info@kooditutorit.fi</a>
+		</footer>
+	</div>
+</body>
+</html>

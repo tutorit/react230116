@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <base href="/" /> 
+    <meta charset="utf-8" />
+    <title>ReactJS</title>
+    <link rel="shortcut icon" href="/images/bookicon.jpg" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="libs/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <script src="libs/jquery.js"></script>
+    <script src="libs/bootstrap/js/bootstrap.js"></script>
+    <link href="styles/styles.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="container">
+		<header>
+			<img src="/images/demoicon.jpg" />
+			<h1>ReactJS-programming</h1>
+		</header>
+		<nav class="demo-nav">
+			<a href="react.hello.html">Simple demo</a>
+			<a href="react.element.html">Elements</a>
+			<a href="react.component.html">Components</a>
+			<a href="demo.gulp.html">Full demo (gulp)</a>
+			<a href="demo.wp.html">Full demo (webpack)</a>
+		</nav>
+		<main>
+			<h1>Welcome to the course</h1>
+			<p>Seeing this page means that you have succeeded in setting up
+			the course environment:</p>
+			<ul>
+				<li>You have node-based web server running in the "server"-directory.</li>
+				<li>wwwroot-directory is the distribution directory of your web-server.
+				This page is the index-html located in the wwwroot-directory.</li>
+			</ul>
+			<h2>JSX</h2>
+			<p>The compiled React-applications should be placed to the "jsx"-directory.
+			It already contains some demonstration applications.</p>
+			<p>To compile the jsx-files you should run:</p>
+<pre>>npm test
+---Or you may install gulp globally----
+>npm install -g gulp
+---After which you may run---
+>gulp jsx
+</pre>
+		</main>
+		<footer>
+			Copyright (c) Kooditutorit Konsultointi Oy, 2016 
+			&#124; <a href="http://www.kooditutorit.fi">www.kooditutorit.fi</a>
+			&#124; <a href="mailto:info@kooditutorit.fi">info@kooditutorit.fi</a>
+		</footer>
+    </div>
+</body>
+</html>
+
