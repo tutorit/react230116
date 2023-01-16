@@ -2,9 +2,9 @@ let path = require('path');
 let webpack = require('webpack');
  
 module.exports = {
-  entry: './jsx/demo.app.jsx',
+  entry: './app/app.jsx',
   mode: 'development',
-  output: { path: __dirname+'/wwwroot/app', filename: 'demo.webpack.bundle.js' },
+  output: { path: __dirname+'/wwwroot/app', filename: 'app.bundle.js' },
   module: {
     rules: [
       {
