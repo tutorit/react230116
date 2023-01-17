@@ -1,6 +1,6 @@
 import React, { useEffect,useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import { BookService } from './bookservice';
+import { Routes, Route, Link, useNavigate, useParams } from 'react-router-dom';
+import { BookServiceHttp as BookService } from './bookservice';
 
 
 export function BookDetail(props){
@@ -14,6 +14,7 @@ export function BookDetail(props){
     useEffect(() => {
         if (params.id==id) return;
         changeId(params.id);
+        console.log("Jep")
         BookService.get(params.id).then(book => {
             console.log("Haettu");
             changeTitle(book.title);
@@ -39,5 +40,40 @@ export function BookDetail(props){
             <input value={author} onChange={ev => changeAuthor(ev.target.value)} />
         </div>
         <input type="button" value="Takaisin" onClick={() => back()} />
+    </div>
+}
+
+
+function PrintableDetail({book}){
+
+    return <div>
+        <h2>Printable</h2>
+        <p>{JSON.stringify(book)}</p>
+    </div>
+}
+
+export function DetailContainer(){
+    let [book,changeBook]=useState({book:{id:-1,title:'Not yet'}});
+    let [id,changeId]=useState(0);
+    const params=useParams();
+
+    useEffect(() => {
+        if (book.id==id) return;
+        changeId(params.id);
+        BookService.get(params.id).then(b => {
+            changeBook(b);
+        })
+    },[id]);
+
+    return <div>
+        <h2>{book.title}</h2>
+        <div className="bookNavi">
+            <Link to="">Editoitava</Link>
+            <Link to="printable">Printattava</Link>
+        </div>
+        <Routes>
+            <Route path="" element={<BookDetail />} />
+            <Route path="printable" element={<PrintableDetail book={book} />} /> 
+        </Routes>
     </div>
 }

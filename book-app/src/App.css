@@ -86,3 +86,12 @@ margin-bottom: 20px;
 .ratherBig{
   font-weight: bold;
 }
+
+.bookNavi{
+  border-bottom: 1px solid #a0a0a0;
+}
+
+.bookNavi a{
+  margin-right:20px;
+  cursor:pointer;
+}

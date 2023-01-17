@@ -1,8 +1,10 @@
 import React from 'react';
 
 import {Link, useNavigate} from 'react-router-dom';
-import { BookService } from './bookservice';
+import { BookServiceHttp as BookService } from './bookservice';
 
+import {translations as tx} from './App';
+import { bookStore } from './bookstore';
 
 function priceStyle(price){
     let color=price<12 ? 'red' : price>14 ? 'green' : 'black';
@@ -15,12 +17,23 @@ function priceClass(price){
     return '';
 }
 
+function formatCurrency(price){
+    let formatter=new Intl.NumberFormat(tx.locale,{style:'currency',currency:'EUR'});
+    return formatter.format(price);
+}
+
+function formatDate(dt){
+    if (typeof(dt)=='string') dt=new Date(dt);
+    let formatter=new Intl.DateTimeFormat(tx.locale);
+    return formatter.format(dt);
+}
+
 const BookRow=({book,navigate}) => <tr>
     <td><Link to={`/book/${book.id}`}>{book.id}</Link></td>
     <td onClick={() => navigate(`/book/${book.id}`)}  style={{cursor:'pointer'}}>{book.title}</td>
     <td>{book.author}</td>
-    <td style={priceStyle(book.price)} className={priceClass(book.price)}>{book.price}</td>
-    <td>{book.published.toLocaleString()}</td>
+    <td style={priceStyle(book.price)} className={priceClass(book.price)}>{formatCurrency(book.price)}</td>
+    <td>{formatDate(book.published)}</td>
 </tr>
 
 export class BookListOrig extends React.Component{
@@ -31,10 +44,19 @@ export class BookListOrig extends React.Component{
 
     componentDidMount(){
         BookService.getAll().then(books => this.setState({books}));
+        this.unsubscribe=bookStore.subscribe(() => {
+            let state=bookStore.getState();
+            console.log(state);
+        });
+    }
+
+    componentWillUnmount(){
+        this.unsubscribe();
     }
 
     valueChanged(ev){
         this.setState({[ev.target.id]:ev.target.value});
+        if (ev.target.id=='sortOrder') bookStore.dispatch({type:'CHANGE_SORT',data:ev.target.value});
     }
 
     render(){
@@ -52,10 +74,10 @@ export class BookListOrig extends React.Component{
                             <option value="title">Title</option>
                             <option value="author">Author</option>
                             </select></th>
-                        <th><input id="titleFilter" value={tf} onChange={ev => this.valueChanged(ev)} placeholder="Title" /></th>
-                        <th><input id="authorFilter" value={af} onChange={ev => this.valueChanged(ev)} placeholder="Author" /></th>
-                        <th>Price</th>
-                        <th>Published</th>
+                        <th><input id="titleFilter" value={tf} onChange={ev => this.valueChanged(ev)} placeholder={tx.book.title} /></th>
+                        <th><input id="authorFilter" value={af} onChange={ev => this.valueChanged(ev)} placeholder={tx.book.author} /></th>
+                        <th>{tx.book.price}</th>
+                        <th>{tx.book.published}</th>
                     </tr>
                 </thead>
                 <tbody>

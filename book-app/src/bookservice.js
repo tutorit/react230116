@@ -1,3 +1,5 @@
+import { HTTP } from "./ajaxhelpers";
+import { bookStore } from "./bookstore";
 
 export const BookService={
 
@@ -31,4 +33,43 @@ export const BookService={
         });
     }
 
+};
+
+export const BookServiceHttp={
+    books:[],
+
+    testBook(book){
+        if (typeof(book.published=='string')) book.published=new Date(book.published);
+        let existing=this.books.find(b => b.id==book.id);
+        if (!existing) this.books.push(book);
+        else Object.assign(existing,book);
+    },
+
+    getAll(){
+        return new Promise(resolve => {
+            HTTP.get("/api/books").then(books => {
+                books.forEach(book => this.testBook(book));
+                resolve(this.books);
+                bookStore.dispatch({type:'GOT_BOOKS',data:this.books})
+            })
+        });
+    },
+
+    get(id){
+        return new Promise(resolve => {
+            HTTP.get("/api/books/"+id).then(book => {
+                this.testBook(book);
+                resolve(book);
+            });
+        });
+    },
+
+    save(book){
+        return new Promise(resolve => {
+            HTTP.put("/api/books/"+book.id,book).then(b => {
+                this.testBook(b);
+                resolve(b);
+            })
+        })
+    }
 };
