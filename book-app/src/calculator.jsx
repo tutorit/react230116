@@ -42,7 +42,7 @@ function FuncCalculator( { fig1=10, fig2=20, onResultChange=() => {} }){
     console.log("Functio",f1,f2);
 
     let callback = React.useCallback(() => onResultChange(f1+f2));
-    React.useEffect(callback,[f1,f2]);
+    useEffect(callback,[f1,f2]);
 
     function doChange(cf,val){
         cf(Number(val));
@@ -86,7 +86,7 @@ function FuncCalculator( { fig1=10, fig2=20, onResultChange=() => {} }){
 export class CalculatorContainer extends React.Component {
     constructor(props){
         super(props);
-        this.state={calcResult:0,funcResult:0,refResult:0};
+        this.state={calcResult:0,funcResult:0,refResult:0,show:'basic'};
     }
 
 
@@ -97,16 +97,25 @@ export class CalculatorContainer extends React.Component {
     render(){
         return <div>
             <h3>Container</h3>
-            <Calculator fig1={7}  onResultChange={res => this.calcResultChange(res)}>
-                <p>Teepäs jotain laskentaa</p>    
-            </Calculator>
-            <p>Laskimen tulos {this.state.calcResult}</p>
-            <hr />
-            <FuncCalculator fig1={2}  onResultChange={funcResult => this.setState({funcResult})} />
-            <p>Func-laskimen tulos {this.state.funcResult}</p>
-            <hr />
-            <RefCalculator fig1={4} fig2={6}  onResultChange={refResult => this.setState({refResult})}/>
-            <p>Ref-laskimen tulos {this.state.refResult}</p>
+            <div>
+                <a onClick={() => this.setState({show:'basic'})}>Perus</a>
+                <a onClick={() => this.setState({show:'func'})}>Funktio</a>
+                <a onClick={() => this.setState({show:'ref'})}>Ref</a>
+            </div>
+            {
+                this.state.show=='func' ? <>
+                    <FuncCalculator fig1={2}  onResultChange={funcResult => this.setState({funcResult})} />
+                    <p>Func-laskimen tulos {this.state.funcResult}</p>
+                </> : this.state.show=='ref' ? <>
+                    <RefCalculator fig1={4} fig2={6}  onResultChange={refResult => this.setState({refResult})}/>
+                    <p>Ref-laskimen tulos {this.state.refResult}</p>
+                </> : <>
+                    <Calculator fig1={7}  onResultChange={res => this.calcResultChange(res)}>
+                        <p>Teepäs jotain laskentaa</p>    
+                    </Calculator>
+                    <p>Laskimen tulos {this.state.calcResult}</p>
+                </>
+            }
         </div>
     }
 }
